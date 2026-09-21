@@ -112,7 +112,7 @@ body {
 /* ---------- 布局 ---------- */
 .layout {
   display: grid;
-  grid-template-columns: 290px minmax(0, 1fr) 360px;
+  grid-template-columns: 270px minmax(0, 1fr) 400px;
   gap: 12px;
   padding: 12px 20px 24px;
   align-items: start;
@@ -787,4 +787,577 @@ table.summary th {
   .layout {
     grid-template-columns: 1fr;
   }
+}
+
+/* ---------- 历史按钮 / 提示 ---------- */
+.hist-btn {
+  padding: 7px 10px;
+  border: 1px solid #3d5a80;
+  border-radius: 8px;
+  background: transparent;
+  color: #dbeafe;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.hist-btn:hover:not(:disabled) {
+  background: #1d3a5f;
+}
+
+.hist-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.applied-hint {
+  margin: 10px 20px 0;
+  padding: 8px 14px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  color: #15803d;
+  font-size: 13px;
+}
+
+/* ---------- 跑道输入 ---------- */
+.perf-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 10px;
+}
+
+.perf-grid label,
+.obstacle-inputs label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.perf-grid input,
+.perf-grid select,
+.obstacle-inputs input {
+  padding: 5px 7px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.perf-grid .seg {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.perf-grid .seg button {
+  flex: 1;
+  border: none;
+  background: #fff;
+  padding: 6px 0;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.perf-grid .seg button.on {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.src {
+  font-style: normal;
+  font-size: 10px;
+  border-radius: 999px;
+  padding: 0 7px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.src.library {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.src.user {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.input-with-btn {
+  display: flex;
+  gap: 6px;
+}
+
+.input-with-btn input {
+  flex: 1;
+  min-width: 0;
+}
+
+.input-with-btn button {
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  border-radius: 6px;
+  font-size: 11px;
+  padding: 0 8px;
+  cursor: pointer;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.wind-readout {
+  margin-top: 10px;
+  padding: 7px 10px;
+  border-radius: 7px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  font-size: 12.5px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wind-readout em {
+  font-style: normal;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.wind-readout.bad {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: var(--bad);
+  font-weight: 600;
+}
+
+.perf-overrides {
+  margin-top: 10px;
+  border-top: 1px solid #eef2f7;
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12.5px;
+}
+
+.override-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.override-row > span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.override-row input[type='number'] {
+  width: 80px;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.override-row .pct {
+  color: var(--muted);
+}
+
+.obstacle-inputs {
+  display: flex;
+  gap: 10px;
+  padding-left: 26px;
+}
+
+.obstacle-inputs label {
+  flex: 1;
+}
+
+/* ---------- 跑道剖面 ---------- */
+.rwy-bar {
+  height: 16px;
+}
+
+.rwy-bar.tora {
+  fill: #93c5fd;
+  stroke: #2563eb;
+  stroke-width: 1;
+}
+
+.rwy-bar.lda {
+  fill: #c4b5fd;
+  stroke: #7c3aed;
+  stroke-width: 1;
+}
+
+.rwy-body {
+  fill: #334155;
+}
+
+.rwy-centerline {
+  stroke: #fbbf24;
+  stroke-width: 2.5;
+  stroke-dasharray: 14 12;
+}
+
+.slope-mark {
+  fill: #e2e8f0;
+  font-size: 10px;
+}
+
+.req-line {
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+}
+
+.req-line.ok {
+  stroke: #15803d;
+}
+
+.req-line.bad {
+  stroke: #dc2626;
+}
+
+.bad-text {
+  fill: var(--bad);
+  color: var(--bad);
+  font-weight: 700;
+}
+
+.ob-line {
+  stroke: #b45309;
+  stroke-width: 1.5;
+}
+
+.ob-line.none {
+  stroke: #94a3b8;
+}
+
+.ob-marker {
+  fill: #b45309;
+}
+
+.ob-marker.none {
+  fill: #94a3b8;
+}
+
+.src-tag {
+  fill: #92400e;
+  font-size: 10px;
+  font-style: italic;
+}
+
+.wind-compass {
+  fill: #f8fafc;
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.wind-arrow {
+  stroke: var(--accent);
+  stroke-width: 2;
+  marker-end: none;
+}
+
+.distance-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.distance-label {
+  color: var(--text);
+}
+
+.bar-track {
+  display: block;
+  height: 10px;
+  border-radius: 999px;
+  background: #eef2f7;
+  overflow: hidden;
+}
+
+.bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #22c55e, #84cc16);
+}
+
+.distance-bar.over .bar-fill {
+  background: linear-gradient(90deg, #f59e0b, #dc2626);
+}
+
+/* ---------- 性能结果 ---------- */
+.table-version {
+  float: right;
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.control-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.control-item {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  flex-wrap: wrap;
+}
+
+.control-item.ok {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.control-item.bad {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.control-label {
+  font-weight: 700;
+  min-width: 92px;
+}
+
+.control-item.ok {
+  color: var(--ok);
+}
+
+.control-item.bad {
+  color: var(--bad);
+}
+
+.control-item span:last-child {
+  color: var(--text);
+}
+
+.control-item span:last-child em {
+  font-style: normal;
+  font-weight: 700;
+}
+
+table.perf-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+table.perf-table th,
+table.perf-table td {
+  padding: 6px;
+  border-bottom: 1px solid #eef2f7;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+table.perf-table th:first-child,
+table.perf-table td:first-child {
+  text-align: left;
+}
+
+table.perf-table th {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+tr.controlling td {
+  background: #eff6ff;
+  font-weight: 600;
+}
+
+.control-tag {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0 7px;
+}
+
+.ok-text {
+  color: var(--ok);
+  font-weight: 700;
+}
+
+td.rejected-cell {
+  text-align: left !important;
+  color: var(--bad);
+}
+
+tr.rejected-row td {
+  background: #fef2f2;
+}
+
+tr.trace-row td {
+  background: #f8fafc;
+  font-size: 11px;
+  color: var(--muted);
+  padding: 4px 6px 7px;
+  line-height: 1.5;
+}
+
+.trace-step em {
+  font-style: normal;
+  color: var(--text);
+}
+
+.trace-label {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.basis {
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+
+.rejection-list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rejection {
+  display: flex;
+  gap: 8px;
+  border-left: 3px solid var(--bad);
+  background: #fef2f2;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.rejection p {
+  margin: 2px 0 0;
+  color: var(--text);
+}
+
+/* ---------- 候选方案 ---------- */
+.no-candidate {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  font-size: 12.5px;
+}
+
+.candidate-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.candidate-card {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 9px 11px;
+  background: #fff;
+}
+
+.candidate-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.candidate-rank {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.candidate-kind {
+  font-size: 10px;
+  border-radius: 999px;
+  padding: 1px 8px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.kind-runway {
+  background: #0f766e;
+}
+
+.kind-fuel {
+  background: #2563eb;
+}
+
+.kind-offload {
+  background: #7c3aed;
+}
+
+.kind-mixed {
+  background: #b45309;
+}
+
+.candidate-title {
+  flex: 1;
+  font-size: 13px;
+}
+
+.apply-btn {
+  border: none;
+  background: var(--ok);
+  color: #fff;
+  border-radius: 7px;
+  padding: 5px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.apply-btn:hover {
+  background: #166534;
+}
+
+.candidate-changes {
+  margin: 7px 0;
+  padding-left: 18px;
+  color: var(--text);
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.candidate-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 11.5px;
+  color: var(--muted);
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 6px;
+}
+
+.candidate-metrics em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.candidate-panel.stale {
+  opacity: 0.7;
 }

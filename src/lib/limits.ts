@@ -29,7 +29,7 @@ export interface PlannerInput {
   burn: number
 }
 
-export type IssueCategory = 'weight' | 'compartment' | 'fuel' | 'envelope' | 'manifest'
+export type IssueCategory = 'weight' | 'performance' | 'compartment' | 'fuel' | 'envelope' | 'manifest'
 export type Severity = 'error' | 'warning'
 
 export interface Contributor {
@@ -54,10 +54,11 @@ export interface Issue {
  */
 export const categoryPriority: Record<IssueCategory, number> = {
   weight: 0,
-  compartment: 1,
-  fuel: 2,
-  envelope: 3,
-  manifest: 4,
+  performance: 1,
+  compartment: 2,
+  fuel: 3,
+  envelope: 4,
+  manifest: 5,
 }
 
 export interface Computed {

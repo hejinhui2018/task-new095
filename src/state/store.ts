@@ -86,40 +86,46 @@ export function reducer(state: PlannerState, action: Action): PlannerState {
 
 const STORAGE_KEY = 'k12-loadsheet-v1'
 
+/** 把未知 JSON 输入校验/钳制为合法的配载状态；非法字段回退默认值（供持久化恢复与版本迁移复用） */
+export function coercePlannerState(parsed: unknown): PlannerState {
+  const base = createDefaultState()
+  if (!parsed || typeof parsed !== 'object') return base
+  const p = parsed as Partial<PlannerState>
+
+  const assignments: Record<string, string> = {}
+  if (p.assignments && typeof p.assignments === 'object') {
+    for (const [itemId, stationId] of Object.entries(p.assignments)) {
+      if (!isLegalPlacement(itemId, stationId)) continue
+      // 座位唯一占用：后到的重复分配丢弃
+      if (
+        stations.get(stationId)!.kind === 'seat' &&
+        Object.values(assignments).includes(stationId)
+      ) {
+        continue
+      }
+      assignments[itemId] = stationId
+    }
+  }
+
+  const fuel: Record<string, number> = { ...base.fuel }
+  if (p.fuel && typeof p.fuel === 'object') {
+    for (const tank of aircraft.fuelTanks) {
+      const v = p.fuel[tank.id]
+      if (typeof v === 'number') fuel[tank.id] = clamp(Math.round(v), 0, tank.capacity)
+    }
+  }
+
+  const burn =
+    typeof p.burn === 'number' ? clamp(Math.round(p.burn), 0, totalCapacity) : base.burn
+  return { assignments, fuel, burn }
+}
+
 /** 启动时恢复上次的方案；数据缺失或非法时回退到初始航班 */
 export function loadState(): PlannerState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return createDefaultState()
-    const parsed = JSON.parse(raw) as Partial<PlannerState>
-    const base = createDefaultState()
-
-    const assignments: Record<string, string> = {}
-    if (parsed.assignments && typeof parsed.assignments === 'object') {
-      for (const [itemId, stationId] of Object.entries(parsed.assignments)) {
-        if (!isLegalPlacement(itemId, stationId)) continue
-        // 座位唯一占用：后到的重复分配丢弃
-        if (
-          stations.get(stationId)!.kind === 'seat' &&
-          Object.values(assignments).includes(stationId)
-        ) {
-          continue
-        }
-        assignments[itemId] = stationId
-      }
-    }
-
-    const fuel: Record<string, number> = { ...base.fuel }
-    if (parsed.fuel && typeof parsed.fuel === 'object') {
-      for (const tank of aircraft.fuelTanks) {
-        const v = parsed.fuel[tank.id]
-        if (typeof v === 'number') fuel[tank.id] = clamp(Math.round(v), 0, tank.capacity)
-      }
-    }
-
-    const burn =
-      typeof parsed.burn === 'number' ? clamp(Math.round(parsed.burn), 0, totalCapacity) : base.burn
-    return { assignments, fuel, burn }
+    return coercePlannerState(JSON.parse(raw))
   } catch {
     return createDefaultState()
   }
